@@ -1,6 +1,23 @@
 version: '2'
 
 services:
+  es-kopf:
+    image: lmenezes/elasticsearch-kopf:latest
+    container_name: es-kopf
+    ports:
+      - 80:80
+    environment:
+      - KOPF_ES_SERVERS=elasticsearch:9200
+      - KOPF_SERVER_NAME=es-kopf
+    restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+        max-file: '3'
+        labels: elasticsearch
+    networks:
+      - docker_elk
   elasticsearch:
     build: elasticsearch/
     ports:
